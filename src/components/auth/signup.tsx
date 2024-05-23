@@ -1,7 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
 import { Colors } from "../../util/colors.ts";
 import { Icon } from "@iconify/react";
 import { z } from "zod";
@@ -13,16 +10,17 @@ import CustomTextInput, {
   textInputVariant,
 } from "../common/textInput.tsx";
 import { useContext, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { Config } from "../../util/config.ts";
 import { ModalContext } from "../../App.js";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { Config } from "../../util/config.ts";
+import axios from "axios";
 
-function Login() {
+function Signup() {
   const schema = z.object({
     email: z.string().min(1, { message: "email is required" }),
     password: z.string().min(1, { message: "password is required" }),
+    fullname: z.string().min(1, { message: "full name is required" }),
   });
 
   type FormData = z.infer<typeof schema>;
@@ -30,6 +28,7 @@ function Login() {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
+    fullname: "",
   });
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
@@ -65,7 +64,7 @@ function Login() {
       try {
         mutation.mutate(formData);
       } catch (error) {
-        console.error("login failed", error);
+        console.error("signup failed", error);
       }
     }
   };
@@ -75,13 +74,13 @@ function Login() {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post(`${Config.apiBaseUrl}login`, formData);
+      const response = await axios.post(`${Config.apiBaseUrl}signup`, formData);
       return response.data;
     },
     onSuccess: (data) => {
       if (data?.status) {
-        setLoginData(data?.data[0]);
-        localStorage.setItem("loginData", JSON.stringify(data?.data[0]));
+        setLoginData(data);
+        localStorage.setItem("loginData", JSON.stringify(data));
         navigate("/");
       } else {
         alert(data?.message);
@@ -128,8 +127,32 @@ function Login() {
                 fontWeight: 600,
               }}
             >
-              Login
+              Sign up
             </h5>
+            <div>
+              <CustomTextInput
+                placeholder='Full name'
+                size={textInputSize.small}
+                variant={textInputVariant.outlined}
+                startAdornment={
+                  <Icon
+                    icon='solar:user-outline'
+                    width={24}
+                    height={24}
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
+                }
+                value={formData.fullname}
+                onChange={(value: any) => {
+                  handleChange("fullname", value);
+                }}
+              />
+              {errors.fullname && (
+                <p style={errorTextStyle}>{errors.fullname}</p>
+              )}
+            </div>
             <div>
               <CustomTextInput
                 placeholder='Email Address'
@@ -179,7 +202,7 @@ function Login() {
             </div>
             <div>
               <CustomButton
-                text='Login'
+                text='Signup'
                 type={buttonType.submit}
                 onClick={() => {
                   console.log("login");
@@ -189,14 +212,13 @@ function Login() {
                 }}
               />
             </div>
-
             <p
               style={{
                 textAlign: "center",
                 marginTop: 10,
               }}
             >
-              <Link to={"/signup"}>Signup here</Link>
+              <Link to={"/login"}>Login here</Link>
             </p>
           </div>
         </div>
@@ -205,4 +227,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
