@@ -1,55 +1,43 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 
-import Grid from "@mui/material/Grid";
+import Navbar from "./navbar.tsx";
+import SideBarMenu, { menuType } from "./sidebar.tsx";
+import ChannelList from "../channel/list.tsx";
+
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import ProgramList from "../program/list.tsx";
+import Dashboard from "../dashboard/dashboard.tsx";
+import PrivateRoute from "../../util/privateRoute.tsx";
 
 const Workspace = () => {
+  const navigate = useNavigate();
+
   return (
-    <Grid container spacing={0}>
-      <Grid item xs={3}>
-        <AppBar
-          position='static'
+    <>
+      <Navbar />
+        <div
+          className='row'
           style={{
-            backgroundColor: "#FFFFFF",
-            color: "black",
+            marginTop: 60,
           }}
         >
-          <Toolbar>
-            <Typography variant='h8' component='div' sx={{ flexGrow: 1 }}>
-              T-Movie
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Grid>
-      <Grid item xs={9}>
-        <AppBar
-          position='static'
-          style={{
-            backgroundColor: "#000222",
-            color: "white",
-          }}
-        >
-          <Toolbar>
-            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-              Dashboard
-            </Typography>
-            <IconButton
-              size='large'
-              edge='start'
-              color='inherit'
-              aria-label='menu'
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-      </Grid>
-    </Grid>
+          <div className='col-sm-12 col-md-3 col-lg-3'>
+            <SideBarMenu
+              onSelectMenuItem={(item: menuType) => {
+                navigate(item.route, { state: { extraInfo: item?.title } });
+              }}
+            />
+          </div>
+          <div className='col-sm-12 col-md-9 col-lg-9 p-2'>
+            <Routes>
+              <Route path='/' element={<Dashboard />} />
+              <Route index path='/dashboard' element={<Dashboard />} />
+              <Route path='/channellist' element={<ChannelList />} />
+              <Route path='/programlist' element={<ProgramList />} />
+            </Routes>
+          </div>
+        </div>
+    </>
   );
 };
 
