@@ -61,7 +61,7 @@ function App() {
                 path='/login'
                 element={
                   <PrivateRoute forAuthScreens={true}>
-                    <Home />
+                    <Login />
                   </PrivateRoute>
                 }
               />
