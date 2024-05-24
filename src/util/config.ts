@@ -1,6 +1,6 @@
 export const Config = {
   apiBaseUrl:
-    "https://tvnetwork-backend-ftt1ono0i-surafels-projects.vercel.app/",
+    "https://tvnetwork-backend-gkpw50ef3-surafels-projects.vercel.app/",
 };
 
 export enum models {
@@ -12,4 +12,3 @@ export enum models {
   watchlater = "watchlater",
   favorite = "favorite",
 }
-
