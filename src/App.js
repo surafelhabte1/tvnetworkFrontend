@@ -12,7 +12,6 @@ import Dashboard from "./components/dashboard/dashboard.tsx";
 import ChannelList from "./components/channel/list.tsx";
 import ProgramList from "./components/program/list.tsx";
 import PrivateRoute from "./util/privateRoute.tsx";
-import Home from "./customer/home.tsx";
 
 export const ModalContext = createContext({
   openModal: false,
