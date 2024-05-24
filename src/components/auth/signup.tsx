@@ -79,8 +79,8 @@ function Signup() {
     },
     onSuccess: (data) => {
       if (data?.status) {
-        setLoginData(data);
-        localStorage.setItem("loginData", JSON.stringify(data));
+        setLoginData(data?.data[0]);
+        localStorage.setItem("loginData", JSON.stringify(data?.data[0]));
         navigate("/");
       } else {
         alert(data?.message);
