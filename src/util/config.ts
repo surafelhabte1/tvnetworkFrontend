@@ -1,6 +1,6 @@
 export const Config = {
   apiBaseUrl:
-    "https://tvnetwork-backend-gkpw50ef3-surafels-projects.vercel.app/",
+    "https://tvnetwork-backend.vercel.app/",
 };
 
 export enum models {
