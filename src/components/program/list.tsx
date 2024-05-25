@@ -95,7 +95,6 @@ const ProgramList = () => {
   }, []);
 
   return (
-    isSuccess && (
       <DataTable
         column={column}
         data={tableData}
@@ -110,7 +109,7 @@ const ProgramList = () => {
           onFiltering(searchField, searchTerm);
         }}
       />
-    )
+    
   );
 };
 
